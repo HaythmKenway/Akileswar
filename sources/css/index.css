@@ -83,7 +83,7 @@
 /* home section styling */
 .home{
     display: flex;
-    background: url("fireclasher.io/images/bg.jpg")  center;
+    background: url("https://github.com/fireclasher/fireclasher.io/blob/master/images/bg.jpg")  center;
     /* Photo by Anni Roenkae from Pexels */
     height: 100vh;
     color: white;
