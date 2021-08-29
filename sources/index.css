@@ -126,18 +126,24 @@ align-items:center ;
     display:none;
     
 }
-.nav-link:hover .link-text{
-    display: block;
-    
-}
 /* content styling */
+
+.nav-link:hover .link-text {
+    display: block;
+    color: crimson;
+}
+
+
+.nav-link:hover .fas{
+    color: crimson;
+}
 .fas{
+    color: white;
     display: flex;
     font-size: 20px;
     align-items:center;
     margin: 30px 0px 10px 5px;
 }
-
 
 /* home section styling */
 .home{
