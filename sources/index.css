@@ -204,8 +204,13 @@ align-items:center ;
     background-size: cover;
 }
 .layer1{
-    background-image: url(https://raw.githubusercontent.com/fireclasher/Akileswar/45050fe829d06623f306c3c489dc3c52a82d8912/images/blob-scene-haikei.svg);
+    background-image: url("https://raw.githubusercontent.com/fireclasher/Akileswar/45050fe829d06623f306c3c489dc3c52a82d8912/images/blob-scene-haikei.svg");
 }
 .flip{
     transform: rotate(180deg);
+}
+@media only screen and (.max-width:600px){
+    .layer1{
+        background-image: url("https://raw.githubusercontent.com/fireclasher/Akileswar/45050fe829d06623f306c3c489dc3c52a82d8912/images/blob-scene-haikei (1).svg");
+    }   
 }
