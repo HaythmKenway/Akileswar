@@ -194,7 +194,7 @@ align-items:center ;
     background:green;
 }
 .yellow{
-    background:yellow;
+    background-image: url("/images/stacked-peaks-haikei.svg");
 }
 .spacer{
     aspect-ratio:960/300;
@@ -238,5 +238,10 @@ align-items:center ;
         font-weight:600;
     
     }
-    
+    .visual{
+        z-index: 1;
+        justify-self: center;
+        position: absolute;
+        top:1000px;
+    }
 }
