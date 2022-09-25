@@ -4,7 +4,10 @@ const aboutContent=document.querySelector('#about-content')
 const contactContent=document.querySelector('#Contact-me')
 const ctf=document.querySelector('#ctf')
 const ctfcontent=document.querySelector('#ctf-content')
-
+const skillbox=document.querySelector('#skillbox')
+const skillboxcontent=document.querySelector('#skillbox_content')
+const acc=document.querySelector('#accolades')
+const acccontent=document.querySelector('#accolades-content')
 about.addEventListener('click',()=>{
     const aboutbox =new WinBox({
         title:'About Me',
@@ -23,6 +26,45 @@ about.addEventListener('click',()=>{
         }
     })
 })
+
+skillbox.addEventListener('click',()=>{
+    const skill =new WinBox({
+        title:'Myskills',
+        width:'80%',
+        height:'500px',
+        top:50,
+        right:50,
+        bottom:50,
+        left:50,
+        mount:skillboxcontent,
+        onfocus:function(){
+            this.setBackground('1793d1')
+        },
+        onblur:function(){
+            this.setBackground('#777')
+        }
+    })
+})
+
+acc.addEventListener('click',()=>{
+    const acco =new WinBox({
+        title:'Accolades',
+        width:'80%',
+        height:'500px',
+        top:50,
+        right:50,
+        bottom:50,
+        left:50,
+        mount:acccontent,
+        onfocus:function(){
+            this.setBackground('1793d1')
+        },
+        onblur:function(){
+            this.setBackground('#777')
+        }
+    })
+})
+
 
 ctf.addEventListener('click',()=>{
     const ctfbox =new WinBox({

@@ -99,6 +99,66 @@ nav ul li{
     display: flex;
     justify-content: centre;
 }
+
+.skillbar .bar {
+    margin:20px,0
+}
+
+.skillbar .bar:first-child {
+    margin-top: 0px;
+}
+.skillbar .bar .info span{
+   font: size 17px;
+   font-weight:500 
+}
+.skillbar .bar .progressline{
+    height:8px;
+    position:relative;
+    width:300px;
+    transform: scaleX(0);
+    border-radius: 10px;
+    animation: animate 2s cubic-bezier(1,0,0.5,1)  forwards;
+    transform-origin: left;
+    
+}
+.bar .progressline span{
+    height: 100%;
+    border-radius: 10px;
+    transform-origin: left;
+   width:10%;
+   background: aqua;
+   position:absolute;
+
+
+}
+
+.progressline.linux span{
+    width:85%;
+}
+.progressline.web span{
+    width:90%;
+}
+.progressline.asm span{
+    width:40%;
+}
+.progressline.privesc span{
+    width:60%;
+}
+.progressline.python span{
+    width:75%;
+}
+.progressline.cpp span{
+    width:95%;
+}
+.progressline.mysql span{
+    width:65%;
+}
+@keyframes animate {
+    100%{
+        transform: scaleX(1);
+    }
+    
+}
 @keyframes blink {
     from,to{
         color: transparent;
