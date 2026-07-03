@@ -17,7 +17,7 @@ const personas = [
   {
     key: 'payments',
     label: 'Payments Engineer',
-    eyebrow: 'Payment Platform Engineer · Chennai, India',
+    eyebrow: 'Associate Engineer · Chennai, India',
     lede: 'I build and operate WLP-FO, a large-scale C++ acquiring/issuing switch that authorizes and routes card transactions across Visa, Mastercard, JCB, UnionPay, Amex, and Bancontact.',
     focus: 'Multi-protocol gateway integration, transaction debugging, PCI DSS & RBAC',
   },
