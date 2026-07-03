@@ -1,38 +1,89 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+
+function haptic(duration = 10) {
+  if (typeof navigator !== 'undefined' && navigator.vibrate) {
+    try {
+      navigator.vibrate(duration)
+    } catch {
+      // vibration not permitted/supported — ignore
+    }
+  }
+}
 
 const fullGreeting = "Hello, I'm Akileswar PrathapKumar"
 const greeting = ref('')
 
+const scrollY = ref(0)
+let ticking = false
+function onScroll() {
+  if (ticking) return
+  ticking = true
+  window.requestAnimationFrame(() => {
+    scrollY.value = window.scrollY
+    ticking = false
+  })
+}
+
+const navItems = [
+  { id: 'work', label: 'Work' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'achievements', label: 'Achievements' },
+  { id: 'contact', label: 'Contact' },
+]
+const activeSection = ref('')
+let sectionObserver
+
 onMounted(() => {
   let i = 0
-  const interval = setInterval(() => {
+  const typeInterval = setInterval(() => {
     i += 1
     greeting.value = fullGreeting.slice(0, i)
-    if (i >= fullGreeting.length) clearInterval(interval)
+    if (i >= fullGreeting.length) clearInterval(typeInterval)
   }, 45)
+
+  window.addEventListener('scroll', onScroll, { passive: true })
+
+  sectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) activeSection.value = entry.target.id
+      })
+    },
+    { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+  )
+  navItems.forEach((item) => {
+    const el = document.getElementById(item.id)
+    if (el) sectionObserver.observe(el)
+  })
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScroll)
+  sectionObserver?.disconnect()
 })
 
 const personas = [
   {
     key: 'payments',
-    label: 'Payments Engineer',
-    eyebrow: 'Associate Engineer · Chennai, India',
-    lede: 'I build and operate WLP-FO, a large-scale C++ acquiring/issuing switch that authorizes and routes card transactions across Visa, Mastercard, JCB, UnionPay, Amex, and Bancontact.',
+    label: 'Payment Engineering',
+    eyebrow: 'Payment Engineering Specialist · Chennai, India',
+    lede: 'I specialize in building and operating WLP-FO, a large-scale C++ acquiring/issuing switch that authorizes and routes card transactions across Visa, Mastercard, JCB, UnionPay, Amex, and Bancontact.',
     focus: 'Multi-protocol gateway integration, transaction debugging, PCI DSS & RBAC',
   },
   {
     key: 'security',
     label: 'Cybersecurity',
-    eyebrow: 'Cybersecurity Engineer · Chennai, India',
-    lede: 'I bring a security-first lens to production systems — PCI DSS and RBAC controls on a live payments switch, hands-on CTF and pentesting practice, and OWASP chapter leadership.',
+    eyebrow: 'Cybersecurity Specialist · Chennai, India',
+    lede: 'I specialize in applying a security-first lens to production systems — PCI DSS and RBAC controls on a live payments switch, hands-on CTF and pentesting practice, and OWASP chapter leadership.',
     focus: 'Application security, PCI DSS/RBAC, offensive security practice (HTB, TryHackMe)',
   },
   {
     key: 'agentic',
-    label: 'AI-Agentic Developer',
-    eyebrow: 'AI-Agentic App Developer ("Vibecoder") · Chennai, India',
-    lede: 'I design and ship AI agents and AI-assisted tooling — from a self-improving debugging agent in production to full-stack apps built end to end with AI-accelerated workflows.',
+    label: 'AI Orchestration',
+    eyebrow: 'AI Orchestration Expert · Chennai, India',
+    lede: 'I specialize in designing and shipping AI agents and AI-assisted tooling — from a self-improving debugging agent in production to full-stack apps built end to end with AI-accelerated workflows.',
     focus: 'Agent orchestration, RAG (ChromaDB/SQLite FTS5), reinforcement learning, rapid AI-assisted shipping',
   },
 ]
@@ -40,12 +91,12 @@ const personas = [
 const activePersona = ref(personas[0].key)
 
 const contactLinks = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/akileswar/' },
-  { label: 'GitHub', href: 'https://github.com/HaythmKenway' },
-  { label: 'Hack The Box', href: 'https://app.hackthebox.com/profile/837343' },
-  { label: 'TryHackMe', href: 'https://tryhackme.com/p/442611' },
-  { label: 'Email', href: 'mailto:hello@akileswar.com' },
-  { label: 'Phone', href: 'tel:+917305645532' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/akileswar/', icon: 'fa-brands fa-linkedin' },
+  { label: 'GitHub', href: 'https://github.com/HaythmKenway', icon: 'fa-brands fa-github' },
+  { label: 'Hack The Box', href: 'https://app.hackthebox.com/profile/837343', icon: 'fa-solid fa-shield-halved' },
+  { label: 'TryHackMe', href: 'https://tryhackme.com/p/442611', icon: 'fa-solid fa-bug' },
+  { label: 'Email', href: 'mailto:hello@akileswar.com', icon: 'fa-solid fa-envelope' },
+  { label: 'Phone', href: 'tel:+917305645532', icon: 'fa-solid fa-phone' },
 ]
 
 const skillGroups = [
@@ -190,16 +241,26 @@ const certifications = [
 </script>
 
 <template>
-  <header class="site-header">
-    <a class="brand" href="#top" aria-label="Akileswar PrathapKumar home">
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1" :style="{ transform: `translate3d(0, ${scrollY * 0.06}px, 0)` }"></div>
+    <div class="orb orb-2" :style="{ transform: `translate3d(0, ${scrollY * -0.04}px, 0)` }"></div>
+    <div class="orb orb-3" :style="{ transform: `translate3d(0, ${scrollY * 0.1}px, 0)` }"></div>
+  </div>
+
+  <header class="site-header" :class="{ scrolled: scrollY > 10 }">
+    <a class="brand" href="#top" aria-label="Akileswar PrathapKumar home" @click="haptic()">
       <img src="/favicon-512.png" alt="" width="44" height="44" />
     </a>
     <nav aria-label="Primary navigation">
-      <a href="#work">Work</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#achievements">Achievements</a>
-      <a href="#contact">Contact</a>
+      <a
+        v-for="item in navItems"
+        :key="item.id"
+        :href="'#' + item.id"
+        :class="{ active: activeSection === item.id }"
+        @click="haptic()"
+      >
+        {{ item.label }}
+      </a>
     </nav>
   </header>
 
@@ -210,7 +271,7 @@ const certifications = [
           <span>{{ greeting }}</span><span class="cursor" aria-hidden="true"></span>
         </p>
 
-        <div class="persona-toggle" role="tablist" aria-label="View profile as">
+        <div class="persona-toggle" role="tablist" aria-label="Areas of specialization">
           <button
             v-for="persona in personas"
             :key="persona.key"
@@ -218,7 +279,7 @@ const certifications = [
             role="tab"
             :aria-selected="persona.key === activePersona"
             :class="['persona-pill', { active: persona.key === activePersona }]"
-            @click="activePersona = persona.key"
+            @click="haptic(); activePersona = persona.key"
           >
             {{ persona.label }}
           </button>
@@ -233,14 +294,14 @@ const certifications = [
         </template>
 
         <div class="actions" aria-label="Profile links">
-          <a class="button primary" href="https://www.linkedin.com/in/akileswar/" target="_blank" rel="noreferrer">
-            View LinkedIn
+          <a class="button primary" href="https://www.linkedin.com/in/akileswar/" target="_blank" rel="noreferrer" @click="haptic()">
+            <i class="fa-brands fa-linkedin" aria-hidden="true"></i> View LinkedIn
           </a>
-          <a class="button secondary" href="https://github.com/HaythmKenway" target="_blank" rel="noreferrer">
-            View GitHub
+          <a class="button secondary" href="https://github.com/HaythmKenway" target="_blank" rel="noreferrer" @click="haptic()">
+            <i class="fa-brands fa-github" aria-hidden="true"></i> View GitHub
           </a>
-          <a class="button secondary" href="mailto:hello@akileswar.com">
-            Contact
+          <a class="button secondary" href="mailto:hello@akileswar.com" @click="haptic()">
+            <i class="fa-solid fa-envelope" aria-hidden="true"></i> Contact
           </a>
         </div>
       </div>
@@ -312,7 +373,7 @@ const certifications = [
           <h3>{{ project.name }}</h3>
           <p v-if="project.tag" class="item-meta">{{ project.tag }}</p>
           <p>{{ project.description }}</p>
-          <a v-if="project.href" :href="project.href" target="_blank" rel="noreferrer" class="card-link">
+          <a v-if="project.href" :href="project.href" target="_blank" rel="noreferrer" class="card-link" @click="haptic()">
             {{ project.linkLabel }} →
           </a>
         </article>
@@ -327,7 +388,7 @@ const certifications = [
       <div class="cards">
         <article v-for="project in openSourceProjects" :key="project.name" class="card">
           <h3>
-            <a v-if="project.href" :href="project.href" target="_blank" rel="noreferrer">
+            <a v-if="project.href" :href="project.href" target="_blank" rel="noreferrer" @click="haptic()">
               {{ project.name }}
             </a>
             <span v-else>{{ project.name }}</span>
@@ -377,8 +438,15 @@ const certifications = [
         <h2>Open to new opportunities in payments, security, and AI-agentic engineering.</h2>
       </div>
       <div class="contact-links">
-        <a v-for="link in contactLinks" :key="link.label" :href="link.href" target="_blank" rel="noreferrer">
-          {{ link.label }}
+        <a
+          v-for="link in contactLinks"
+          :key="link.label"
+          :href="link.href"
+          target="_blank"
+          rel="noreferrer"
+          @click="haptic()"
+        >
+          <i :class="link.icon" aria-hidden="true"></i> {{ link.label }}
         </a>
       </div>
     </section>
