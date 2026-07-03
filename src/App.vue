@@ -1,7 +1,49 @@
 <script setup>
+import { ref, onMounted } from 'vue'
+
+const fullGreeting = "Hello, I'm Akileswar PrathapKumar"
+const greeting = ref('')
+
+onMounted(() => {
+  let i = 0
+  const interval = setInterval(() => {
+    i += 1
+    greeting.value = fullGreeting.slice(0, i)
+    if (i >= fullGreeting.length) clearInterval(interval)
+  }, 45)
+})
+
+const personas = [
+  {
+    key: 'payments',
+    label: 'Payments Engineer',
+    eyebrow: 'Associate Engineer · Chennai, India',
+    lede: 'I build and operate WLP-FO, a large-scale C++ acquiring/issuing switch that authorizes and routes card transactions across Visa, Mastercard, JCB, UnionPay, Amex, and Bancontact.',
+    focus: 'Multi-protocol gateway integration, transaction debugging, PCI DSS & RBAC',
+  },
+  {
+    key: 'security',
+    label: 'Cybersecurity',
+    eyebrow: 'Cybersecurity Engineer · Chennai, India',
+    lede: 'I bring a security-first lens to production systems — PCI DSS and RBAC controls on a live payments switch, hands-on CTF and pentesting practice, and OWASP chapter leadership.',
+    focus: 'Application security, PCI DSS/RBAC, offensive security practice (HTB, TryHackMe)',
+  },
+  {
+    key: 'agentic',
+    label: 'AI-Agentic Developer',
+    eyebrow: 'AI-Agentic App Developer ("Vibecoder") · Chennai, India',
+    lede: 'I design and ship AI agents and AI-assisted tooling — from a self-improving debugging agent in production to full-stack apps built end to end with AI-accelerated workflows.',
+    focus: 'Agent orchestration, RAG (ChromaDB/SQLite FTS5), reinforcement learning, rapid AI-assisted shipping',
+  },
+]
+
+const activePersona = ref(personas[0].key)
+
 const contactLinks = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/akileswar/' },
   { label: 'GitHub', href: 'https://github.com/HaythmKenway' },
+  { label: 'Hack The Box', href: 'https://app.hackthebox.com/profile/837343' },
+  { label: 'TryHackMe', href: 'https://tryhackme.com/p/442611' },
   { label: 'Email', href: 'mailto:hello@akileswar.com' },
   { label: 'Phone', href: 'tel:+917305645532' },
 ]
@@ -9,7 +51,7 @@ const contactLinks = [
 const skillGroups = [
   {
     title: 'Languages',
-    items: ['C++23', 'SQL (Oracle, PostgreSQL)', 'Python', 'JavaScript', 'Go', 'Bash'],
+    items: ['C++', 'SQL (Oracle, PostgreSQL)', 'Python', 'JavaScript', 'Go', 'Bash'],
   },
   {
     title: 'Payments',
@@ -26,6 +68,10 @@ const skillGroups = [
     ],
   },
   {
+    title: 'Security',
+    items: ['PCI DSS', 'RBAC', 'OWASP Top 10', 'MITRE ATT&CK', 'Threat modeling', 'CTF & pentesting (HTB, TryHackMe)'],
+  },
+  {
     title: 'Protocols',
     items: ['CTAP', 'NEXO/BSP (ISO 20022)', 'STRAPI', 'GICC', 'CUPS (UnionPay)', 'JLink (JCB)', 'VIP (Visa)'],
   },
@@ -38,7 +84,7 @@ const skillGroups = [
     items: ['Vue', 'Nuxt', 'Node.js', 'Supabase', 'REST APIs'],
   },
   {
-    title: 'AI / Tooling',
+    title: 'AI / Agentic Tooling',
     items: ['ChromaDB', 'SQLite FTS5', 'Reinforcement learning (Thompson Sampling, Q-learning)', 'Agent orchestration'],
   },
 ]
@@ -49,9 +95,9 @@ const experience = [
     role: 'Associate Engineer — Payment Platform (WLP-FO)',
     meta: 'Sep 2023 – Present · Chennai, India',
     bullets: [
-      'Own development and maintenance of C++23 processing functions on WLP-FO, a large-scale acquiring/issuing switch routing card transactions across 7+ schemes (Visa, Mastercard, JCB, UnionPay, Amex, Bancontact) over multiple regions.',
+      'Own development and maintenance of C++ processing functions on WLP-FO, a large-scale acquiring/issuing switch routing card transactions across 7+ schemes (Visa, Mastercard, JCB, UnionPay, Amex, Bancontact) over multiple regions.',
       'Integrated 6 acquiring/issuing gateway protocols end to end (CTAP, NEXO/BSP, GICC, CUPS, STRAPI, JLink) across 3 production instances in 4 regions (BE, CZ, AU, EU).',
-      'Designed and built Botchestra, a self-improving AI agent that automates transaction debugging on WLP-FO — pairing semantic and full-text search (ChromaDB, SQLite FTS5) over a payment knowledge base with reinforcement learning and an agent-orchestration state machine — improving developer debugging productivity by 40–50%.',
+      'Designed and built Botchestra, a self-improving AI agent (internal project) that automates transaction debugging on WLP-FO — pairing semantic and full-text search (ChromaDB, SQLite FTS5) over a payment knowledge base with reinforcement learning and an agent-orchestration state machine — improving developer debugging productivity by 40–50%.',
       'Independently built, published, and maintain wlpfo-utils, a VS Code extension for WLP-FO developers (one-key breakpoint insertion, log viewing, compile/install instance actions), with 6,700+ installs on the VS Code Marketplace.',
     ],
   },
@@ -72,22 +118,30 @@ const experience = [
 const flagshipProjects = [
   {
     name: 'Botchestra',
+    tag: 'Internal @ Worldline',
+    href: 'https://www.linkedin.com/feed/update/urn:li:activity:7476836712443211776/',
+    linkLabel: 'Read the write-up on LinkedIn',
     description:
       'Self-improving AI agent for WLP-FO transaction debugging — pairs semantic and full-text search (ChromaDB, SQLite FTS5) over a payments knowledge base with reinforcement learning and an agent-orchestration state machine. Improves developer debugging productivity by 40–50%.',
   },
   {
     name: 'wlpfo-utils',
+    tag: '6,700+ installs',
+    href: 'https://marketplace.visualstudio.com/items?itemName=AkileswarPrathapKumar.wlpfo-utilities',
+    linkLabel: 'View on VS Code Marketplace',
     description:
-      'VS Code extension for WLP-FO developers — one-key breakpoint insertion, log viewing, and compile/install instance actions. 6,700+ installs on the VS Code Marketplace.',
+      'VS Code extension for WLP-FO developers — one-key breakpoint insertion, log viewing, and compile/install instance actions.',
   },
   {
     name: 'mithaigarage.com',
     href: 'https://mithaigarage.com',
+    linkLabel: 'Visit site',
     description: 'Production e-commerce site built end to end (frontend, backend, hosting) for a freelance client — Vue, Nuxt, Supabase.',
   },
   {
     name: 'unsboxing.com',
     href: 'https://unsboxing.com',
+    linkLabel: 'Visit site',
     description: 'Second freelance client site delivered end to end from requirements to launch — Vue, Nuxt, Supabase.',
   },
 ]
@@ -137,7 +191,9 @@ const certifications = [
 
 <template>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="Akileswar P home">AP</a>
+    <a class="brand" href="#top" aria-label="Akileswar PrathapKumar home">
+      <img src="/favicon-512.png" alt="" width="44" height="44" />
+    </a>
     <nav aria-label="Primary navigation">
       <a href="#work">Work</a>
       <a href="#skills">Skills</a>
@@ -150,14 +206,32 @@ const certifications = [
   <main id="top">
     <section class="hero section">
       <div class="hero-copy">
-        <p class="eyebrow">Payment Platform Engineer · Chennai, India</p>
-        <h1>Akileswar P</h1>
-        <p class="lede">
-          I build and operate WLP-FO, a large-scale C++23 acquiring/issuing switch that
-          authorizes and routes card transactions across Visa, Mastercard, JCB, UnionPay,
-          Amex, and Bancontact — plus AI-powered developer tooling that speeds up payment
-          debugging.
+        <p class="typing">
+          <span>{{ greeting }}</span><span class="cursor" aria-hidden="true"></span>
         </p>
+
+        <div class="persona-toggle" role="tablist" aria-label="View profile as">
+          <button
+            v-for="persona in personas"
+            :key="persona.key"
+            type="button"
+            role="tab"
+            :aria-selected="persona.key === activePersona"
+            :class="['persona-pill', { active: persona.key === activePersona }]"
+            @click="activePersona = persona.key"
+          >
+            {{ persona.label }}
+          </button>
+        </div>
+
+        <template v-for="persona in personas" :key="persona.key">
+          <template v-if="persona.key === activePersona">
+            <p class="eyebrow">{{ persona.eyebrow }}</p>
+            <h1>Akileswar PrathapKumar</h1>
+            <p class="lede">{{ persona.lede }}</p>
+          </template>
+        </template>
+
         <div class="actions" aria-label="Profile links">
           <a class="button primary" href="https://www.linkedin.com/in/akileswar/" target="_blank" rel="noreferrer">
             View LinkedIn
@@ -187,7 +261,11 @@ const certifications = [
           </div>
           <div>
             <dt>Focus</dt>
-            <dd>Multi-protocol gateway integration, transaction debugging, AI dev tooling</dd>
+            <dd>
+              <template v-for="persona in personas" :key="persona.key">
+                <template v-if="persona.key === activePersona">{{ persona.focus }}</template>
+              </template>
+            </dd>
           </div>
         </dl>
       </aside>
@@ -231,13 +309,12 @@ const certifications = [
       </div>
       <div class="cards">
         <article v-for="project in flagshipProjects" :key="project.name" class="card">
-          <h3>
-            <a v-if="project.href" :href="project.href" target="_blank" rel="noreferrer">
-              {{ project.name }}
-            </a>
-            <span v-else>{{ project.name }}</span>
-          </h3>
+          <h3>{{ project.name }}</h3>
+          <p v-if="project.tag" class="item-meta">{{ project.tag }}</p>
           <p>{{ project.description }}</p>
+          <a v-if="project.href" :href="project.href" target="_blank" rel="noreferrer" class="card-link">
+            {{ project.linkLabel }} →
+          </a>
         </article>
       </div>
     </section>
@@ -297,7 +374,7 @@ const certifications = [
     <section id="contact" class="section contact">
       <div>
         <p class="eyebrow">Contact</p>
-        <h2>Open to new opportunities in payments and platform engineering.</h2>
+        <h2>Open to new opportunities in payments, security, and AI-agentic engineering.</h2>
       </div>
       <div class="contact-links">
         <a v-for="link in contactLinks" :key="link.label" :href="link.href" target="_blank" rel="noreferrer">
