@@ -230,6 +230,44 @@ dd {
   font-weight: 800;
 }
 
+.timeline-item ul {
+  margin: 12px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.timeline-item li + li {
+  margin-top: 8px;
+}
+
+.skill-groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.skill-group {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 20px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
 .split {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
@@ -325,6 +363,7 @@ dd {
   .cards,
   .credentials ul,
   .list-grid,
+  .skill-groups,
   .contact-links {
     grid-template-columns: 1fr;
   }
