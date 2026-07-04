@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
+import { ref, watch, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
 import CredlyBadges from './components/CredlyBadges.vue'
 
 const ThreeBackground = defineAsyncComponent(() => import('./components/ThreeBackground.vue'))
@@ -9,7 +9,7 @@ function haptic(duration = 10) {
     try {
       navigator.vibrate(duration)
     } catch {
-      // vibration not permitted/supported — ignore
+      // ignore: vibration not permitted or supported
     }
   }
 }
@@ -73,30 +73,42 @@ onUnmounted(() => {
 const personas = [
   {
     key: 'payments',
-    label: 'Payment Engineering',
-    eyebrow: 'Payment Engineering Specialist · Chennai, India',
-    lede: 'I specialize in building and operating WLP-FO, a large-scale C++ acquiring/issuing switch that authorizes and routes card transactions across Visa, Mastercard, JCB, UnionPay, Amex, and Bancontact.',
+    label: 'Cards & Payments',
+    eyebrow: 'Building Payment Technology · Chennai, India',
+    lede: 'I work on authorization and switching at Worldline Global Services, building and operating WLP-FO, a large-scale C++ acquiring/issuing switch that authorizes and routes card transactions across Visa, Mastercard, JCB, UnionPay, Amex, and Bancontact.',
     focus: 'Multi-protocol gateway integration, transaction debugging, PCI DSS',
   },
   {
     key: 'security',
     label: 'Cybersecurity',
-    eyebrow: 'Cybersecurity Specialist · Chennai, India',
-    lede: 'I specialize in applying a security-first lens to production systems — PCI DSS controls on a live payments switch, hands-on CTF and pentesting practice, and OWASP chapter leadership.',
+    eyebrow: 'Cybersecurity Practitioner · Chennai, India',
+    lede: 'I specialize in applying a security-first lens to production systems: PCI DSS controls on a live payments switch, hands-on CTF and pentesting practice, and OWASP chapter leadership.',
     focus: 'Application security, PCI DSS, offensive security practice (HTB, TryHackMe)',
   },
   {
     key: 'agentic',
-    label: 'AI Orchestration',
-    eyebrow: 'AI Orchestration Expert · Chennai, India',
-    lede: 'I specialize in designing and shipping AI agents and AI-assisted tooling — from a self-improving debugging agent in production to full-stack apps built end to end with AI-accelerated workflows.',
+    label: 'AI-Orchestration',
+    eyebrow: 'AI-Orchestration · Chennai, India',
+    lede: 'I specialize in designing and shipping AI agents and AI-assisted tooling: from a self-improving debugging agent in production to full-stack apps built end to end with AI-accelerated workflows.',
     focus: 'Agent orchestration, RAG (ChromaDB/SQLite FTS5), reinforcement learning, rapid AI-assisted shipping',
   },
 ]
 
 const activePersona = ref(personas[0].key)
 
-const credlyUrl = 'https://www.credly.com/users/akileswar-p/badges'
+const themeColors = {
+  payments: 0x0f6b4f,
+  security: 0xb91c1c,
+  agentic: 0x6d28d9,
+}
+
+watch(
+  activePersona,
+  (value) => {
+    if (typeof document !== 'undefined') document.documentElement.setAttribute('data-theme', value)
+  },
+  { immediate: true }
+)
 
 const contactLinks = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/akileswar/', icon: 'fa-brands fa-linkedin' },
@@ -140,13 +152,13 @@ const skillGroups = [
 
 const experience = [
   {
-    company: 'Worldline',
-    role: 'Associate Engineer — Payment Platform (WLP-FO)',
+    company: 'Worldline Global Services',
+    role: 'Associate Engineer, Payment Platform (WLP-FO)',
     meta: 'Sep 2023 – Present · Chennai, India',
     bullets: [
       'Own development and maintenance of C++ processing functions on WLP-FO, a large-scale acquiring/issuing switch routing card transactions across 7+ schemes (Visa, Mastercard, JCB, UnionPay, Amex, Bancontact) over multiple regions.',
       'Integrated 6 acquiring/issuing gateway protocols end to end (CTAP, NEXO/BSP, GICC, CUPS, STRAPI, JLink) across 3 production instances in 4 regions (BE, CZ, AU, EU).',
-      'Designed and built Botchestra, a self-improving AI agent (internal project) that automates transaction debugging on WLP-FO — pairing semantic and full-text search (ChromaDB, SQLite FTS5) over a payment knowledge base with reinforcement learning and an agent-orchestration state machine — improving developer debugging productivity by 40–50%.',
+      'Designed and built Botchestra, a self-improving AI agent (internal project) that automates transaction debugging on WLP-FO by pairing semantic and full-text search (ChromaDB, SQLite FTS5) over a payment knowledge base with reinforcement learning and an agent-orchestration state machine, improving developer debugging productivity by 40–50%.',
       'Independently built, published, and maintain wlpfo-utils, a VS Code extension for WLP-FO developers (one-key breakpoint insertion, log viewing, compile/install instance actions), with 6,700+ installs on the VS Code Marketplace.',
     ],
   },
@@ -167,11 +179,11 @@ const experience = [
 const flagshipProjects = [
   {
     name: 'Botchestra',
-    tag: 'Internal @ Worldline',
+    tag: 'Internal @ Worldline Global Services',
     href: 'https://www.linkedin.com/feed/update/urn:li:activity:7476836712443211776/',
     linkLabel: 'Read the write-up on LinkedIn',
     description:
-      'Self-improving AI agent for WLP-FO transaction debugging — pairs semantic and full-text search (ChromaDB, SQLite FTS5) over a payments knowledge base with reinforcement learning and an agent-orchestration state machine. Improves developer debugging productivity by 40–50%.',
+      'Self-improving AI agent for WLP-FO transaction debugging that pairs semantic and full-text search (ChromaDB, SQLite FTS5) over a payments knowledge base with reinforcement learning and an agent-orchestration state machine. Improves developer debugging productivity by 40–50%.',
   },
   {
     name: 'wlpfo-utils',
@@ -179,19 +191,19 @@ const flagshipProjects = [
     href: 'https://marketplace.visualstudio.com/items?itemName=AkileswarPrathapKumar.wlpfo-utilities',
     linkLabel: 'View on VS Code Marketplace',
     description:
-      'VS Code extension for WLP-FO developers — one-key breakpoint insertion, log viewing, and compile/install instance actions.',
+      'VS Code extension for WLP-FO developers: one-key breakpoint insertion, log viewing, and compile/install instance actions.',
   },
   {
     name: 'mithaigarage.com',
     href: 'https://mithaigarage.com',
     linkLabel: 'Visit site',
-    description: 'Production e-commerce site built end to end (frontend, backend, hosting) for a freelance client — Vue, Nuxt, Supabase.',
+    description: 'Production e-commerce site built end to end (frontend, backend, hosting) for a freelance client, using Vue, Nuxt, and Supabase.',
   },
   {
     name: 'unsboxing.com',
     href: 'https://unsboxing.com',
     linkLabel: 'Visit site',
-    description: 'Second freelance client site delivered end to end from requirements to launch — Vue, Nuxt, Supabase.',
+    description: 'Second freelance client site delivered end to end from requirements to launch, using Vue, Nuxt, and Supabase.',
   },
 ]
 
@@ -204,19 +216,19 @@ const openSourceProjects = [
 ]
 
 const achievements = [
-  { title: '2nd place — Google Cloud Hackathon', meta: '2024' },
-  { title: '3rd place — Google Cloud Next Hackathon', meta: '2025' },
-  { title: '3rd place — TechForum', meta: '2026' },
+  { title: '2nd place, Google Cloud Hackathon', meta: '2024' },
+  { title: '3rd place, Google Cloud Next Hackathon', meta: '2025' },
+  { title: '3rd place, TechForum', meta: '2026' },
 ]
 
 const leadership = [
   {
-    org: 'OWASP — Chennai Institute of Technology',
+    org: 'OWASP, Chennai Institute of Technology',
     role: 'Founding Chapter Lead',
     body: 'Launched the chapter and ran hands-on pentesting and CTF sessions.',
   },
   {
-    org: 'GDSC — Chennai Institute of Technology',
+    org: 'GDSC, Chennai Institute of Technology',
     role: 'Student Mentor',
     body: 'Led a MITRE ATT&CK workshop and helped organize GDSC-WOW.',
   },
@@ -228,7 +240,7 @@ const credlyBadges = [
   { id: '2c0658d4-e161-4a12-9d32-f44db8688488', label: 'Google: Professional Cloud Architect' },
   { id: 'e90f4037-5775-4c62-b09b-bad96df6300d', label: 'AWS Cloud Quest: Cloud Practitioner' },
   { id: 'a9a775ea-add3-4ec1-95dd-a36ae7669caa', label: 'AWS Knowledge: Data Protection & Disaster Recovery' },
-  { id: '3b10867d-f400-4e1f-8e12-8f01103f4901', label: 'Cisco: CCNA — Introduction to Networks' },
+  { id: '3b10867d-f400-4e1f-8e12-8f01103f4901', label: 'Cisco CCNA: Introduction to Networks' },
   { id: '54cb74a3-6993-4188-8b69-3cd573ebf9d6', label: 'Cisco: Cybersecurity Essentials' },
   { id: '73024b7a-c6ef-4fb7-ab41-73ed35b7e28c', label: 'Cisco: Introduction to Packet Tracer' },
   { id: '733684d3-babb-4217-8227-ae745fd2d006', label: 'Cisco: CyberOps Associate' },
@@ -236,7 +248,7 @@ const credlyBadges = [
 </script>
 
 <template>
-  <ThreeBackground />
+  <ThreeBackground :color="themeColors[activePersona]" />
 
   <header class="site-header" :class="{ scrolled: scrollY > 10 }">
     <a class="brand" href="#top" aria-label="Akileswar PrathapKumar home" @click="haptic()">
@@ -301,7 +313,7 @@ const credlyBadges = [
         <dl>
           <div>
             <dt>Current</dt>
-            <dd>Worldline — Payment Platform (WLP-FO)</dd>
+            <dd>Associate Engineer, Worldline Global Services</dd>
           </div>
           <div>
             <dt>Experience</dt>
@@ -418,10 +430,6 @@ const credlyBadges = [
         <p class="eyebrow">Education &amp; Credentials</p>
         <h2>Certifications and Learning</h2>
       </div>
-      <a class="credly-cta" :href="credlyUrl" target="_blank" rel="noreferrer" @click="haptic()">
-        <i class="fa-solid fa-award" aria-hidden="true"></i>
-        View verified badges on Credly →
-      </a>
       <CredlyBadges v-if="credlyBadges.length" :badges="credlyBadges" />
     </section>
 

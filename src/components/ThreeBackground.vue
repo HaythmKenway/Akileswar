@@ -1,6 +1,13 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import * as THREE from 'three'
+
+const props = defineProps({
+  color: {
+    type: Number,
+    default: 0x0f6b4f,
+  },
+})
 
 const canvasEl = ref(null)
 
@@ -47,7 +54,7 @@ function buildScene() {
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
 
   const material = new THREE.PointsMaterial({
-    color: 0x0f6b4f,
+    color: props.color,
     size: 0.045,
     sizeAttenuation: true,
     transparent: true,
@@ -57,6 +64,15 @@ function buildScene() {
   points = new THREE.Points(geometry, material)
   scene.add(points)
 }
+
+watch(
+  () => props.color,
+  (value) => {
+    if (!points) return
+    points.material.color.setHex(value)
+    if (prefersReducedMotion) renderStaticFrame()
+  }
+)
 
 function animate() {
   animationId = requestAnimationFrame(animate)
