@@ -222,19 +222,19 @@ const leadership = [
   },
 ]
 
-const certifications = [
-  'Google: Professional Cloud Architect',
-  'AWS: Cloud Practitioner',
-  'AWS: Data Protection',
-  'Cisco: Introduction to Cybersecurity',
-  'Cisco: Cybersecurity Essentials',
-  'Cisco: Introduction to Packet Tracer',
-  'Cisco: CyberOps Associate',
-]
+// Certifications without a verified Credly badge embed yet.
+const additionalCertifications = ['Cisco: Introduction to Cybersecurity']
 
-// Verified Credly badge embeds — add { id: '<share-badge-id>' } for each
-// certification as its embed snippet is provided.
-const credlyBadges = [{ id: 'e90f4037-5775-4c62-b09b-bad96df6300d' }]
+// Verified Credly badge embeds (credly.com/users/akileswar-p/badges).
+const credlyBadges = [
+  { id: '2c0658d4-e161-4a12-9d32-f44db8688488', label: 'Google: Professional Cloud Architect' },
+  { id: 'e90f4037-5775-4c62-b09b-bad96df6300d', label: 'AWS Cloud Quest: Cloud Practitioner' },
+  { id: 'a9a775ea-add3-4ec1-95dd-a36ae7669caa', label: 'AWS Knowledge: Data Protection & Disaster Recovery' },
+  { id: '3b10867d-f400-4e1f-8e12-8f01103f4901', label: 'Cisco: CCNA — Introduction to Networks' },
+  { id: '54cb74a3-6993-4188-8b69-3cd573ebf9d6', label: 'Cisco: Cybersecurity Essentials' },
+  { id: '73024b7a-c6ef-4fb7-ab41-73ed35b7e28c', label: 'Cisco: Introduction to Packet Tracer' },
+  { id: '733684d3-babb-4217-8227-ae745fd2d006', label: 'Cisco: CyberOps Associate' },
+]
 </script>
 
 <template>
@@ -425,8 +425,8 @@ const credlyBadges = [{ id: 'e90f4037-5775-4c62-b09b-bad96df6300d' }]
         View verified badges on Credly →
       </a>
       <CredlyBadges v-if="credlyBadges.length" :badges="credlyBadges" />
-      <ul>
-        <li v-for="credential in certifications" :key="credential">{{ credential }}</li>
+      <ul v-if="additionalCertifications.length">
+        <li v-for="credential in additionalCertifications" :key="credential">{{ credential }}</li>
       </ul>
     </section>
 

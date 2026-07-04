@@ -480,8 +480,21 @@ dd {
 .credly-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 20px;
+  margin: 0 0 24px;
+}
+
+.credly-badge {
+  margin: 0;
+  text-align: center;
+}
+
+.credly-badge figcaption {
+  max-width: 150px;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
 .credentials ul {

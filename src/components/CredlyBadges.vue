@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue'
 
-const props = defineProps({
+defineProps({
   badges: {
     type: Array,
     required: true,
@@ -20,20 +20,18 @@ function loadEmbedScript() {
 onMounted(() => {
   loadEmbedScript()
 })
-
-defineExpose({ props })
 </script>
 
 <template>
   <div class="credly-badges">
-    <div
-      v-for="badge in badges"
-      :key="badge.id"
-      class="credly-badge"
-      :data-iframe-width="badge.width || 150"
-      :data-iframe-height="badge.height || 270"
-      :data-share-badge-id="badge.id"
-      data-share-badge-host="https://www.credly.com"
-    ></div>
+    <figure v-for="badge in badges" :key="badge.id" class="credly-badge">
+      <div
+        :data-iframe-width="badge.width || 150"
+        :data-iframe-height="badge.height || 270"
+        :data-share-badge-id="badge.id"
+        data-share-badge-host="https://www.credly.com"
+      ></div>
+      <figcaption v-if="badge.label">{{ badge.label }}</figcaption>
+    </figure>
   </div>
 </template>
