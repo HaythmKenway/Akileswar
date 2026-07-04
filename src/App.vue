@@ -222,8 +222,6 @@ const leadership = [
   },
 ]
 
-// Certifications without a verified Credly badge embed yet.
-const additionalCertifications = ['Cisco: Introduction to Cybersecurity']
 
 // Verified Credly badge embeds (credly.com/users/akileswar-p/badges).
 const credlyBadges = [
@@ -425,9 +423,6 @@ const credlyBadges = [
         View verified badges on Credly →
       </a>
       <CredlyBadges v-if="credlyBadges.length" :badges="credlyBadges" />
-      <ul v-if="additionalCertifications.length">
-        <li v-for="credential in additionalCertifications" :key="credential">{{ credential }}</li>
-      </ul>
     </section>
 
     <section id="contact" class="section contact">
