@@ -1,5 +1,8 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
+import CredlyBadges from './components/CredlyBadges.vue'
+
+const ThreeBackground = defineAsyncComponent(() => import('./components/ThreeBackground.vue'))
 
 function haptic(duration = 10) {
   if (typeof navigator !== 'undefined' && navigator.vibrate) {
@@ -48,7 +51,10 @@ onMounted(() => {
   sectionObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) activeSection.value = entry.target.id
+        if (entry.isIntersecting && entry.target.id !== activeSection.value) {
+          activeSection.value = entry.target.id
+          haptic(4)
+        }
       })
     },
     { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
@@ -70,14 +76,14 @@ const personas = [
     label: 'Payment Engineering',
     eyebrow: 'Payment Engineering Specialist · Chennai, India',
     lede: 'I specialize in building and operating WLP-FO, a large-scale C++ acquiring/issuing switch that authorizes and routes card transactions across Visa, Mastercard, JCB, UnionPay, Amex, and Bancontact.',
-    focus: 'Multi-protocol gateway integration, transaction debugging, PCI DSS & RBAC',
+    focus: 'Multi-protocol gateway integration, transaction debugging, PCI DSS',
   },
   {
     key: 'security',
     label: 'Cybersecurity',
     eyebrow: 'Cybersecurity Specialist · Chennai, India',
-    lede: 'I specialize in applying a security-first lens to production systems — PCI DSS and RBAC controls on a live payments switch, hands-on CTF and pentesting practice, and OWASP chapter leadership.',
-    focus: 'Application security, PCI DSS/RBAC, offensive security practice (HTB, TryHackMe)',
+    lede: 'I specialize in applying a security-first lens to production systems — PCI DSS controls on a live payments switch, hands-on CTF and pentesting practice, and OWASP chapter leadership.',
+    focus: 'Application security, PCI DSS, offensive security practice (HTB, TryHackMe)',
   },
   {
     key: 'agentic',
@@ -90,13 +96,15 @@ const personas = [
 
 const activePersona = ref(personas[0].key)
 
+const credlyUrl = 'https://www.credly.com/users/akileswar-p/badges'
+
 const contactLinks = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/akileswar/', icon: 'fa-brands fa-linkedin' },
   { label: 'GitHub', href: 'https://github.com/HaythmKenway', icon: 'fa-brands fa-github' },
+  { label: 'LeetCode', href: 'https://leetcode.com/u/fireclasher/', icon: 'fa-brands fa-leetcode' },
   { label: 'Hack The Box', href: 'https://app.hackthebox.com/profile/837343', icon: 'fa-solid fa-shield-halved' },
   { label: 'TryHackMe', href: 'https://tryhackme.com/p/442611', icon: 'fa-solid fa-bug' },
   { label: 'Email', href: 'mailto:hello@akileswar.com', icon: 'fa-solid fa-envelope' },
-  { label: 'Phone', href: 'tel:+917305645532', icon: 'fa-solid fa-phone' },
 ]
 
 const skillGroups = [
@@ -106,25 +114,15 @@ const skillGroups = [
   },
   {
     title: 'Payments',
-    items: [
-      'Acquiring/Issuing switch',
-      'Authorization & reversal',
-      'Pre-/incremental/deferred auth',
-      'Dynamic Currency Conversion (DCC)',
-      'UCOF',
-      'Contactless (P22)',
-      'Result-code mapping',
-      'PCI DSS',
-      'RBAC',
-    ],
+    items: ['Acquiring/Issuing switch', 'Authorization & reversal', 'Pre-/incremental/deferred auth', 'Contactless', 'ISO 8583', 'PCI DSS'],
   },
   {
     title: 'Security',
-    items: ['PCI DSS', 'RBAC', 'OWASP Top 10', 'MITRE ATT&CK', 'Threat modeling', 'CTF & pentesting (HTB, TryHackMe)'],
+    items: ['PCI DSS', 'OWASP Top 10', 'MITRE ATT&CK', 'Threat modeling', 'CTF & pentesting (HTB, TryHackMe)'],
   },
   {
     title: 'Protocols',
-    items: ['CTAP', 'NEXO/BSP (ISO 20022)', 'STRAPI', 'GICC', 'CUPS (UnionPay)', 'JLink (JCB)', 'VIP (Visa)'],
+    items: ['CTAP', 'NEXO (ISO 20022)', 'BSP', 'STRAPI', 'GICC', 'CUPS (UnionPay)', 'JLink (JCB)', 'VIP (Visa)'],
   },
   {
     title: 'Cloud & DevOps',
@@ -136,7 +134,7 @@ const skillGroups = [
   },
   {
     title: 'AI / Agentic Tooling',
-    items: ['ChromaDB', 'SQLite FTS5', 'Reinforcement learning (Thompson Sampling, Q-learning)', 'Agent orchestration'],
+    items: ['ChromaDB', 'SQLite FTS5', 'Reinforcement Learning', 'Agent orchestration'],
   },
 ]
 
@@ -203,11 +201,6 @@ const openSourceProjects = [
     href: 'https://github.com/HaythmKenway/autoscout',
     description: 'A recon server with several reconnaissance and automation functionalities, written in Go.',
   },
-  {
-    name: 'Anesthesia',
-    href: 'https://github.com/HaythmKenway/Anesthesia',
-    description: 'Personal home-lab configuration for provisioning workstations and mobile gear using Ansible and Bash.',
-  },
 ]
 
 const achievements = [
@@ -229,23 +222,23 @@ const leadership = [
   },
 ]
 
-const certifications = [
-  'Google: Professional Cloud Architect',
-  'AWS: Cloud Practitioner',
-  'AWS: Data Protection',
-  'Cisco: Introduction to Cybersecurity',
-  'Cisco: Cybersecurity Essentials',
-  'Cisco: Introduction to Packet Tracer',
-  'Cisco: CyberOps Associate',
+// Certifications without a verified Credly badge embed yet.
+const additionalCertifications = ['Cisco: Introduction to Cybersecurity']
+
+// Verified Credly badge embeds (credly.com/users/akileswar-p/badges).
+const credlyBadges = [
+  { id: '2c0658d4-e161-4a12-9d32-f44db8688488', label: 'Google: Professional Cloud Architect' },
+  { id: 'e90f4037-5775-4c62-b09b-bad96df6300d', label: 'AWS Cloud Quest: Cloud Practitioner' },
+  { id: 'a9a775ea-add3-4ec1-95dd-a36ae7669caa', label: 'AWS Knowledge: Data Protection & Disaster Recovery' },
+  { id: '3b10867d-f400-4e1f-8e12-8f01103f4901', label: 'Cisco: CCNA — Introduction to Networks' },
+  { id: '54cb74a3-6993-4188-8b69-3cd573ebf9d6', label: 'Cisco: Cybersecurity Essentials' },
+  { id: '73024b7a-c6ef-4fb7-ab41-73ed35b7e28c', label: 'Cisco: Introduction to Packet Tracer' },
+  { id: '733684d3-babb-4217-8227-ae745fd2d006', label: 'Cisco: CyberOps Associate' },
 ]
 </script>
 
 <template>
-  <div class="bg-orbs" aria-hidden="true">
-    <div class="orb orb-1" :style="{ transform: `translate3d(0, ${scrollY * 0.06}px, 0)` }"></div>
-    <div class="orb orb-2" :style="{ transform: `translate3d(0, ${scrollY * -0.04}px, 0)` }"></div>
-    <div class="orb orb-3" :style="{ transform: `translate3d(0, ${scrollY * 0.1}px, 0)` }"></div>
-  </div>
+  <ThreeBackground />
 
   <header class="site-header" :class="{ scrolled: scrollY > 10 }">
     <a class="brand" href="#top" aria-label="Akileswar PrathapKumar home" @click="haptic()">
@@ -427,8 +420,13 @@ const certifications = [
         <p class="eyebrow">Education &amp; Credentials</p>
         <h2>Certifications and Learning</h2>
       </div>
-      <ul>
-        <li v-for="credential in certifications" :key="credential">{{ credential }}</li>
+      <a class="credly-cta" :href="credlyUrl" target="_blank" rel="noreferrer" @click="haptic()">
+        <i class="fa-solid fa-award" aria-hidden="true"></i>
+        View verified badges on Credly →
+      </a>
+      <CredlyBadges v-if="credlyBadges.length" :badges="credlyBadges" />
+      <ul v-if="additionalCertifications.length">
+        <li v-for="credential in additionalCertifications" :key="credential">{{ credential }}</li>
       </ul>
     </section>
 
