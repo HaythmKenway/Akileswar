@@ -114,8 +114,6 @@ const contactLinks = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/akileswar/', icon: 'fa-brands fa-linkedin' },
   { label: 'GitHub', href: 'https://github.com/HaythmKenway', icon: 'fa-brands fa-github' },
   { label: 'LeetCode', href: 'https://leetcode.com/u/fireclasher/', icon: 'fa-brands fa-leetcode' },
-  { label: 'Hack The Box', href: 'https://app.hackthebox.com/profile/837343', icon: 'fa-solid fa-shield-halved' },
-  { label: 'TryHackMe', href: 'https://tryhackme.com/p/442611', icon: 'fa-solid fa-bug' },
   { label: 'Email', href: 'mailto:hello@akileswar.com', icon: 'fa-solid fa-envelope' },
 ]
 
